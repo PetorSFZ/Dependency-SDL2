@@ -56,7 +56,7 @@ else()
 	find_package(SDL2 REQUIRED) # ${SDL2_INCLUDE_DIR}, ${SDL2_LIBRARY}
 endif()
 
-# Return variables
-set(SDL2_INCLUDE_DIRS ${SDL2_INCLUDE_DIR} PARENT_SCOPE)
-set(SDL2_LIBRARIES ${SDL2_LIBRARY} PARENT_SCOPE)
-set(SDL2_DLLS ${DLLPath} PARENT_SCOPE)
+# Install targets
+install(FILES ${SDL2_INCLUDE_DIR} DESTINATION include)
+install(TARGETS ${SDL2_LIBRARY} DESTINATION lib)
+install(FILES ${DLLPath} DESTINATION runtime)
