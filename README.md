@@ -7,7 +7,7 @@ Three CMake variables are returned:
 
 `${SDL2_FOUND}`: Variable that signals whether SDL2 is available or not.
 
-`${SDL2_HEADERS}`: The headers you need to include with `include_directories()` or similar.
+`${SDL2_INCLUDE_DIRS}`: The headers you need to include with `include_directories()` or similar.
 
 `${SDL2_LIBRARIES}`: The libraries you need to link your to with `target_link_libraries()`.
 
@@ -32,7 +32,7 @@ download_project(
 )
 add_subdirectory(${sdl2_SOURCE_DIR})
 message("Finished acquiring SDL2")
-# ${SDL2_FOUND}, ${SDL2_HEADERS}, ${SDL2_LIBRARIES} and ${SDL2_RUNTIME_FILES} is available at this point
+# ${SDL2_FOUND}, ${SDL2_INCLUDE_DIRS}, ${SDL2_LIBRARIES} and ${SDL2_RUNTIME_FILES} is available at this point
 
 # Copy DLLs when building with Visual Studio
 if(MSVC)
