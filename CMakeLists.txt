@@ -1,8 +1,10 @@
-# Author: Peter Hillerström
-# Originally part of: https://github.com/PetorSFZ/sfzCore
+# Author: Peter Hillerström (https://github.com/PetorSFZ)
+# https://github.com/PhantasyEngine/phDependency_SDL2
 # License: Public Domain (do whatever you want with this file,
 #                         but it would be nice if you kept this header)
 # SDL2 License: zlib
+
+cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
 
 # Check if 32 or 64bit compiler
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -50,13 +52,21 @@ if(WIN32)
 			        ${SDL2_DIR}/README-SDL.txt)	
 	endif()
 
+elseif(EMSCRIPTEN)
+	# Do nothing. Emscripten has SDL2 built in.
+	set(SDL2_FOUND true)
+	set(SDL2_INCLUDE_DIR "")
+	set(SDL2_LIBRARY "")
+	set(DLLPath "")
+
 else()
 	# Attempt to use bundled FindSDL2.cmake module to find SDL2 installed on users system
 	list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/find_sdl2_module)
 	find_package(SDL2 REQUIRED) # ${SDL2_INCLUDE_DIR}, ${SDL2_LIBRARY}
 endif()
 
-# Install targets
-install(FILES ${SDL2_INCLUDE_DIR} DESTINATION include)
-install(TARGETS ${SDL2_LIBRARY} DESTINATION lib)
-install(FILES ${DLLPath} DESTINATION runtime)
+# Return variables
+set(SDL2_FOUND ${SDL2_FOUND} PARENT_SCOPE)
+set(SDL2_HEADERS ${SDL2_INCLUDE_DIR} PARENT_SCOPE)
+set(SDL2_LIBRARIES ${SDL2_LIBRARY} PARENT_SCOPE)
+set(SDL2_RUNTIME_FILES ${DLLPath} PARENT_SCOPE)
