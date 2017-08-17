@@ -3,7 +3,7 @@ This is a distribution and CMake wrapper of the SDL2 library (available from htt
 
 # Usage
 
-Place this entire directory in the subdirectory of your CMake project, then add it with `add_subdirectory()`. Three CMake variables are returned:
+Three CMake variables are returned:
 
 `${SDL2_FOUND}`: Variable that signals whether SDL2 is available or not.
 
@@ -13,6 +13,34 @@ Place this entire directory in the subdirectory of your CMake project, then add 
 
 `${SDL2_RUNTIME_FILES}`: The path to runtime files. On Windows this is the `SDL2.dll`.
 
+## Easy way
+Just copy this entire distribution and manually place it in your CMake project. Alternatively you could use something like git submodules, but you will have to figure that out yourself. Simply add this directory with `add_subdirectory()` in your `CMakeLists.txt`.
+
+## Smart way
+Use the [DownloadProject](https://github.com/Crascit/DownloadProject) to download this SDL2 distribution during CMake configuration time. Example code:
+
+~~~cmake
+include(DownloadProject.cmake)
+message("Acquiring SDL2")
+download_project(
+	PROJ                sdl2
+	PREFIX              externals
+	GIT_REPOSITORY      https://github.com/PhantasyEngine/phDependency_SDL2.git
+	GIT_TAG             <INSERT GIT HASH FOR VERSION YOU WANT HERE>
+	UPDATE_DISCONNECTED 1
+	QUIET
+)
+add_subdirectory(${sdl2_SOURCE_DIR})
+message("Finished acquiring SDL2")
+# ${SDL2_FOUND}, ${SDL2_HEADERS}, ${SDL2_LIBRARIES} and ${SDL2_RUNTIME_FILES} is available at this point
+
+# Copy DLLs when building with Visual Studio
+if(MSVC)
+	file(COPY ${SDL2_RUNTIME_FILES} DESTINATION ${CMAKE_BINARY_DIR}/Debug)
+	file(COPY ${SDL2_RUNTIME_FILES} DESTINATION ${CMAKE_BINARY_DIR}/RelWithDebInfo)
+	file(COPY ${SDL2_RUNTIME_FILES} DESTINATION ${CMAKE_BINARY_DIR}/Release)
+endif()
+~~~
 
 # License
 
