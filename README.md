@@ -1,4 +1,4 @@
-# phDependency_SDL2
+# Dependency - SDL2
 This is a distribution and CMake wrapper of the SDL2 library (available from https://www.libsdl.org/). It bundles the official pre-built SDL2 binaries (https://libsdl.org/download-2.0.php) for Windows in order to make it easier to build. Uses `FindSDL2.cmake` module (originally found in Twinklebear-Dev SDL tutorial: `https://github.com/Twinklebear/TwinklebearDev-Lessons/blob/master/cmake/FindSDL2.cmake`) on other platforms.
 
 # Usage
@@ -25,7 +25,7 @@ message("Acquiring SDL2")
 download_project(
 	PROJ                sdl2
 	PREFIX              externals
-	GIT_REPOSITORY      https://github.com/PhantasyEngine/phDependency_SDL2.git
+	GIT_REPOSITORY      https://github.com/PhantasyEngine/Dependency-SDL2.git
 	GIT_TAG             <INSERT GIT HASH FOR VERSION YOU WANT HERE>
 	UPDATE_DISCONNECTED 1
 	QUIET
