@@ -18,7 +18,7 @@ endif()
 if(WIN32)
 	# Use bundled SDL2 on Windows
 
-	set(SDL2_DIR ${CMAKE_CURRENT_SOURCE_DIR}/SDL2-devel-2.0.5-VC)
+	set(SDL2_DIR ${CMAKE_CURRENT_SOURCE_DIR}/SDL2-devel-2.0.7-VC)
 	set(SDL2_INCLUDE_DIR ${SDL2_DIR}/include)
 
 	if (BITS_64)
@@ -35,7 +35,7 @@ if(WIN32)
 		set(SDL2_LIBRARY ${SDL2_LIB} ${SDL2MAIN_LIB})
 		set(DLLPath ${SDL2_DIR}/lib/x64/SDL2.dll
 			        ${SDL2_DIR}/README-SDL.txt)
-	
+
 	elseif(BITS32)
 		find_library(SDL2_LIB
 			NAMES
@@ -49,7 +49,7 @@ if(WIN32)
 			${SDL2_DIR}/lib/x86)
 		set(SDL2_LIBRARY ${SDL2_LIB} ${SDL2MAIN_LIB})
 		set(DLLPath ${SDL2_DIR}/lib/x86/SDL2.dll
-			        ${SDL2_DIR}/README-SDL.txt)	
+			        ${SDL2_DIR}/README-SDL.txt)
 	endif()
 
 elseif(EMSCRIPTEN)
