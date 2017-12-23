@@ -1,5 +1,5 @@
 # Author: Peter Hillerström (https://github.com/PetorSFZ)
-# https://github.com/PhantasyEngine/phDependency_SDL2
+# https://github.com/PhantasyEngine/Dependency-SDL2
 # License: Public Domain (do whatever you want with this file,
 #                         but it would be nice if you kept this header)
 # SDL2 License: zlib
