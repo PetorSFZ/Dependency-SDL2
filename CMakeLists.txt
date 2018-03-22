@@ -18,7 +18,7 @@ endif()
 if(WIN32)
 	# Use bundled SDL2 on Windows
 	set(SDL2_FOUND true)
-	set(SDL2_DIR ${CMAKE_CURRENT_SOURCE_DIR}/SDL2-devel-2.0.7-VC)
+	set(SDL2_DIR ${CMAKE_CURRENT_SOURCE_DIR}/SDL2-devel-2.0.8-VC)
 	set(SDL2_INCLUDE_DIR ${SDL2_DIR}/include)
 
 	if (BITS_64)
