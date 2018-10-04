@@ -18,7 +18,7 @@ endif()
 if(WIN32)
 	# Use bundled SDL2 on Windows
 	set(SDL2_FOUND true)
-	set(SDL2_DIR ${CMAKE_CURRENT_SOURCE_DIR}/SDL2-devel-2.0.8-VC)
+	set(SDL2_DIR ${CMAKE_CURRENT_SOURCE_DIR}/SDL2-devel-2.0.8)
 	set(SDL2_INCLUDE_DIR ${SDL2_DIR}/include)
 
 	if (BITS_64)
@@ -33,8 +33,9 @@ if(WIN32)
 			HINTS
 			${SDL2_DIR}/lib/x64)
 		set(SDL2_LIBRARY ${SDL2_LIB} ${SDL2MAIN_LIB})
-		set(DLLPath ${SDL2_DIR}/lib/x64/SDL2.dll
-			        ${SDL2_DIR}/README-SDL.txt)
+		set(DLLPath
+			${SDL2_DIR}/lib/x64/SDL2.dll
+			${SDL2_DIR}/README-SDL.txt)
 
 	elseif(BITS32)
 		find_library(SDL2_LIB
@@ -48,9 +49,42 @@ if(WIN32)
 			HINTS
 			${SDL2_DIR}/lib/x86)
 		set(SDL2_LIBRARY ${SDL2_LIB} ${SDL2MAIN_LIB})
-		set(DLLPath ${SDL2_DIR}/lib/x86/SDL2.dll
-			        ${SDL2_DIR}/README-SDL.txt)
+		set(DLLPath
+			${SDL2_DIR}/lib/x86/SDL2.dll
+			${SDL2_DIR}/README-SDL.txt)
 	endif()
+
+	# Grab all headers from include dir and add to empty custom target for IDE
+	file(GLOB_RECURSE SDL2_HEADER_FILES
+		"*.h"
+	)
+	source_group(TREE ${SDL2_DIR} FILES ${SDL2_HEADER_FILES})
+	add_custom_target(SDL2 SOURCES ${SDL2_HEADER_FILES})
+
+elseif(IOS)
+	# Don't support 32 bit iOS build
+	if (BITS32)
+		message(FATAL_ERROR "No support for 32bit build")
+	endif()
+
+	# Use bundled SDL2
+	set(SDL2_FOUND true)
+	set(SDL2_DIR ${CMAKE_CURRENT_SOURCE_DIR}/SDL2-devel-2.0.8)
+	set(SDL2_INCLUDE_DIR ${SDL2_DIR}/include)
+
+	find_library(SDL2_LIB
+		NAMES
+		SDL2
+		HINTS
+		${SDL2_DIR}/lib/iOS)
+	set(SDL2_LIBRARY ${SDL2_LIB})
+
+	# Grab all headers from include dir and add to empty custom target for IDE
+	file(GLOB_RECURSE SDL2_HEADER_FILES
+		"*.h"
+	)
+	source_group(TREE ${SDL2_DIR} FILES ${SDL2_HEADER_FILES})
+	add_custom_target(SDL2 SOURCES ${SDL2_HEADER_FILES})
 
 elseif(EMSCRIPTEN)
 	# Do nothing. Emscripten has SDL2 built in.
