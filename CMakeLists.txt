@@ -18,7 +18,7 @@ endif()
 if(WIN32)
 	# Use bundled SDL2 on Windows
 	set(SDL2_FOUND true)
-	set(SDL2_DIR ${CMAKE_CURRENT_SOURCE_DIR}/SDL2-devel-2.0.8)
+	set(SDL2_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Windows/SDL2-devel-2.0.8)
 	set(SDL2_INCLUDE_DIR ${SDL2_DIR}/include)
 
 	if (BITS_64)
@@ -56,7 +56,7 @@ if(WIN32)
 
 	# Grab all headers from include dir and add to empty custom target for IDE
 	file(GLOB_RECURSE SDL2_HEADER_FILES
-		"*.h"
+		"Windows/*.h"
 	)
 	source_group(TREE ${SDL2_DIR} FILES ${SDL2_HEADER_FILES})
 	add_custom_target(SDL2 SOURCES ${SDL2_HEADER_FILES})
@@ -69,19 +69,19 @@ elseif(IOS)
 
 	# Use bundled SDL2
 	set(SDL2_FOUND true)
-	set(SDL2_DIR ${CMAKE_CURRENT_SOURCE_DIR}/SDL2-devel-2.0.8)
+	set(SDL2_DIR ${CMAKE_CURRENT_SOURCE_DIR}/iOS)
 	set(SDL2_INCLUDE_DIR ${SDL2_DIR}/include)
 
 	find_library(SDL2_LIB
 		NAMES
 		SDL2
 		HINTS
-		${SDL2_DIR}/lib/iOS)
+		${SDL2_DIR}/lib)
 	set(SDL2_LIBRARY ${SDL2_LIB})
 
 	# Grab all headers from include dir and add to empty custom target for IDE
 	file(GLOB_RECURSE SDL2_HEADER_FILES
-		"*.h"
+		"iOS/*.h"
 	)
 	source_group(TREE ${SDL2_DIR} FILES ${SDL2_HEADER_FILES})
 	add_custom_target(SDL2 SOURCES ${SDL2_HEADER_FILES})
