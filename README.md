@@ -13,26 +13,27 @@ Three CMake variables are returned:
 
 `${SDL2_RUNTIME_FILES}`: The path to runtime files. On Windows this is the `SDL2.dll`.
 
-## Easy way
+There are two recommended ways of including Dependency-SDL2 in your project, including it directly or downloading it using [`FetchContent`](https://cmake.org/cmake/help/latest/module/FetchContent.html).
+
+## Copying
+
 Just copy this entire distribution and manually place it in your CMake project. Alternatively you could use something like git submodules, but you will have to figure that out yourself. Simply add this directory with `add_subdirectory()` in your `CMakeLists.txt`.
 
-## Smart way
-Use the [DownloadProject](https://github.com/Crascit/DownloadProject) to download this SDL2 distribution during CMake configuration time. Example code:
+## Downloading
+
+Using `FetchContent` Dependency-SDL2 can be added with the following CMake commands:
 
 ~~~cmake
-include(DownloadProject.cmake)
-message("Acquiring SDL2")
-download_project(
-	PROJ                sdl2
-	PREFIX              externals
-	GIT_REPOSITORY      https://github.com/PhantasyEngine/Dependency-SDL2.git
-	GIT_TAG             <INSERT GIT HASH FOR VERSION YOU WANT HERE>
-	UPDATE_DISCONNECTED 1
-	QUIET
+FetchContent_Declare(
+	sdl2
+	GIT_REPOSITORY https://github.com/PetorSFZ/Dependency-SDL2.git
+	GIT_TAG <hash to version you want>
 )
-add_subdirectory(${sdl2_SOURCE_DIR})
-message("Finished acquiring SDL2")
-# ${SDL2_FOUND}, ${SDL2_INCLUDE_DIRS}, ${SDL2_LIBRARIES} and ${SDL2_RUNTIME_FILES} is available at this point
+FetchContent_GetProperties(sdl2)
+if(NOT sdl2_POPULATED)
+	FetchContent_Populate(sdl2)
+	add_subdirectory(${sdl2_SOURCE_DIR} ${CMAKE_BINARY_DIR}/sdl2)
+endif()
 
 # Copy DLLs when building with Visual Studio
 if(MSVC)
