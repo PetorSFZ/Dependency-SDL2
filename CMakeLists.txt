@@ -61,7 +61,8 @@ if(WIN32)
 	source_group(TREE ${SDL2_DIR} FILES ${SDL2_HEADER_FILES})
 	add_custom_target(SDL2 SOURCES ${SDL2_HEADER_FILES})
 
-elseif(IOS)
+elseif(CMAKE_SYSTEM_NAME STREQUAL "iOS")
+
 	# Don't support 32 bit iOS build
 	if (BITS32)
 		message(FATAL_ERROR "No support for 32bit build")
@@ -71,13 +72,7 @@ elseif(IOS)
 	set(SDL2_FOUND true)
 	set(SDL2_DIR ${CMAKE_CURRENT_SOURCE_DIR}/iOS)
 	set(SDL2_INCLUDE_DIR ${SDL2_DIR}/include)
-
-	find_library(SDL2_LIB
-		NAMES
-		SDL2
-		HINTS
-		${SDL2_DIR}/lib)
-	set(SDL2_LIBRARY ${SDL2_LIB})
+	set(SDL2_LIBRARY ${SDL2_DIR}/lib/libSDL2.a)
 
 	# Grab all headers from include dir and add to empty custom target for IDE
 	file(GLOB_RECURSE SDL2_HEADER_FILES
