@@ -16,43 +16,31 @@ else()
 endif()
 
 if(WIN32)
+
+	# Don't support 32 bit Windows build
+	if (BITS32)
+		message(FATAL_ERROR "No support for 32bit build")
+	endif()
+
 	# Use bundled SDL2 on Windows
 	set(SDL2_FOUND true)
-	set(SDL2_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Windows/SDL2-devel-2.0.8)
+	set(SDL2_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Windows/SDL2-2.0.10)
 	set(SDL2_INCLUDE_DIR ${SDL2_DIR}/include)
 
-	if (BITS_64)
-		find_library(SDL2_LIB
-			NAMES
-			SDL2
-			HINTS
-			${SDL2_DIR}/lib/x64)
-		find_library(SDL2MAIN_LIB
-			NAMES
-			SDL2main
-			HINTS
-			${SDL2_DIR}/lib/x64)
-		set(SDL2_LIBRARY ${SDL2_LIB} ${SDL2MAIN_LIB})
-		set(DLLPath
-			${SDL2_DIR}/lib/x64/SDL2.dll
-			${SDL2_DIR}/README-SDL.txt)
-
-	elseif(BITS32)
-		find_library(SDL2_LIB
-			NAMES
-			SDL2
-			HINTS
-			${SDL2_DIR}/lib/x86)
-		find_library(SDL2MAIN_LIB
-			NAMES
-			SDL2main
-			HINTS
-			${SDL2_DIR}/lib/x86)
-		set(SDL2_LIBRARY ${SDL2_LIB} ${SDL2MAIN_LIB})
-		set(DLLPath
-			${SDL2_DIR}/lib/x86/SDL2.dll
-			${SDL2_DIR}/README-SDL.txt)
-	endif()
+	find_library(SDL2_LIB
+		NAMES
+		SDL2
+		HINTS
+		${SDL2_DIR}/lib/x64)
+	find_library(SDL2MAIN_LIB
+		NAMES
+		SDL2main
+		HINTS
+		${SDL2_DIR}/lib/x64)
+	set(SDL2_LIBRARY ${SDL2_LIB} ${SDL2MAIN_LIB})
+	set(DLLPath
+		${SDL2_DIR}/lib/x64/SDL2.dll
+		${SDL2_DIR}/README-SDL.txt)
 
 	# Grab all headers from include dir and add to empty custom target for IDE
 	file(GLOB_RECURSE SDL2_HEADER_FILES
